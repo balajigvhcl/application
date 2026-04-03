@@ -10,27 +10,18 @@ pool:
 
 variables:
   dockerRegistryServiceConnection: 'DockerHubServiceConnection'  # Service connection name in Azure DevOps
-  #imageRepository: '1601071/docker-images'  # Docker Hub repository name
   containerRegistry: 'DockerHubServiceConnection'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   imageName: '1601071/docker-images'  # Image name without tag
-#  tag: '$(Build.BuildId)'
   latestTag: 'latest'
 
 stages:
   - stage: Build_and_Push
-#    displayName: 'Build Docker Image and Push to Registry'
-#    jobs:
-#      - job: BuildAndPush
-#        displayName: 'Build and Push Docker Image'
-#        steps:
-#          - task: UseDotNet@2
-#            displayName: 'Use .NET Core sdk'
-#            inputs:
-#              version: '6.x'
-#              packageType: 'sdk'
-#            continueOnError: true
-
+    displayName: 'Build Docker Image and Push to Registry'
+    jobs:
+      - job: BuildAndPush
+        displayName: 'Build and Push Docker Image'
+        steps:
           - task: Docker@2
             displayName: 'Build Docker Image'
             inputs:
@@ -38,7 +29,6 @@ stages:
               Dockerfile: $(dockerfilePath)
               repository: $(imageName)
               tags: |
-#               $(tag)
                 $(latestTag)
               arguments: '--build-arg BUILD_ID=$(Build.BuildId) --build-arg BUILD_DATE=$(Build.BuildNumber)'
 
@@ -54,7 +44,6 @@ stages:
               command: 'push'
               repository: $(imageName)
               tags: |
-#                $(tag)
                 $(latestTag)
               containerRegistry: $(dockerRegistryServiceConnection)
 
@@ -75,6 +64,6 @@ stages:
           - script: |
               echo "Docker image pushed successfully!"
               echo "Repository: $(imageName)"
-              echo "Tags: $(tag), $(latestTag)"
-              echo "Pull command: docker pull $(imageName):$(tag)"
+              echo "Tag: $(latestTag)"
+              echo "Pull command: docker pull $(imageName):$(latestTag)"
             displayName: 'Display Image Information'
