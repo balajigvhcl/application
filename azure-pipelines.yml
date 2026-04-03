@@ -11,8 +11,9 @@ pool:
 variables:
   dockerRegistryServiceConnection: 'DockerHubServiceConnection'  # Service connection name in Azure DevOps
   imageRepository: '1601071/balaji_hub'
-  containerRegistry: 'docker.io'
+  containerRegistry: docker.io
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  imageName: '1601071/balaji_hub'
   tag: '$(Build.BuildId)'
   latestTag: 'latest'
 
@@ -35,7 +36,7 @@ stages:
             inputs:
               command: 'build'
               Dockerfile: $(dockerfilePath)
-              repository: $(imageRepository)
+              repository: $(imageName)
               tags: |
                 $(tag)
                 $(latestTag)
@@ -51,7 +52,7 @@ stages:
             displayName: 'Push Image to Docker Registry'
             inputs:
               command: 'push'
-              repository: $(imageRepository)
+              repository: $(imageName)
               tags: |
                 $(tag)
                 $(latestTag)
@@ -73,7 +74,7 @@ stages:
         steps:
           - script: |
               echo "Docker image pushed successfully!"
-              echo "Repository: $(containerRegistry)/$(imageRepository)"
+              echo "Repository: $(imageName)"
               echo "Tags: $(tag), $(latestTag)"
-              echo "Pull command: docker pull $(containerRegistry)/$(imageRepository):$(tag)"
+              echo "Pull command: docker pull $(imageName):$(tag)"
             displayName: 'Display Image Information'
