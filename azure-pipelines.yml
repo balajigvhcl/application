@@ -13,7 +13,7 @@ variables:
   imageRepository: '1601071/balaji_hub'
   containerRegistry: 'DockerHubServiceConnection'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  imageName: '1601071/balaji_hub'
+  imageName: 'httpd:latest'
   tag: '$(Build.BuildId)'
   latestTag: 'latest'
 
