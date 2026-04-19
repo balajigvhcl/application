@@ -4,7 +4,8 @@ trigger:
 
 pr:
   - main
-
+pool:
+  name: Local
 variables:
   dockerRegistryServiceConnection: 'DockerHubServiceConnection'  # Service connection name in Azure DevOps
   containerRegistry: 'DockerHubServiceConnection'
