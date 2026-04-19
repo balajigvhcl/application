@@ -5,9 +5,6 @@ trigger:
 pr:
   - main
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 variables:
   dockerRegistryServiceConnection: 'DockerHubServiceConnection'  # Service connection name in Azure DevOps
   containerRegistry: 'DockerHubServiceConnection'
