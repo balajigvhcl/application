@@ -19,5 +19,5 @@ steps:
 
 
 - script:
-    ansilble-playbook facts.yml
+    ansible-playbook facts.yml
   displayName: 'Ansible playbook execution started'
