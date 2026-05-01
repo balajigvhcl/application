@@ -1,0 +1,22 @@
+---
+- name: Collect system configuration facts
+  hosts: localhost   # or 'all' depending on your inventory
+  gather_facts: false  # disable default fact gathering
+  become: true
+
+  tasks:
+    - name: Gather system facts
+      ansible.builtin.setup:
+
+    - name: Show all collected facts
+      ansible.builtin.debug:
+        var: ansible_facts
+
+    - name: Display specific facts (hostname, OS, memory)
+      ansible.builtin.debug:
+        msg:
+          - "Hostname: {{ ansible_facts['hostname'] }}"
+          - "OS: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}"
+          - "Kernel: {{ ansible_facts['kernel'] }}"
+          - "Total Memory: {{ ansible_facts['memtotal_mb'] }} MB"
+          - "CPU Count: {{ ansible_facts['processor_cores'] }}"
