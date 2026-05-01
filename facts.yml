@@ -15,7 +15,7 @@
     - name: Display specific facts (hostname, OS, memory)
       ansible.builtin.debug:
         msg:
-          - "Hostname: {{ ansible_facts['ansible_hostname'] }}"
+          - "Hostname: {{ ansible_facts['hostname'] }}"
           - "OS: {{ ansible_facts['ansible_distribution'] }} {{ ansible_facts['ansible_distribution_version'] }}"
           - "Kernel: {{ ansible_facts['ansible_kernel'] }}"
           - "Total Memory: {{ ansible_facts['ansible_memtotal_mb'] }} MB"
