@@ -2,6 +2,9 @@
 - name: Create ansible_directory on remote VM
   hosts: localhost
   become: true
+  vars:
+    target_user: ruser  # change it as per your requirement
+    lock_action: lock   # values "lock" or "unlock"
   tasks:
     - name: Ensure ansible_directory exists under /
       file:
@@ -17,3 +20,19 @@
         shell: /bin/ksh
         create_home: yes
         state: present
+  tasks:
+    - name: ensure the .ssh directory exists
+      file:
+        path: "/home/{{ target_user }}/.ssh"
+        state: directory
+        mode: '0700'
+    - name: lock .ssh directory (immutable)
+      command: "chattr +i home/{{ target_user }}/.ssh"
+      when: lock_action == "lock"
+    - name: unlock .ssh directory (remove (immutable)
+      command: "chattr -i home/{{ target_user }}/.ssh"
+      when: lock_action == "unlock"
+      
+
+
+    
