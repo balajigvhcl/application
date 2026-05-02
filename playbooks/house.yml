@@ -1,6 +1,6 @@
 ---
 - name: Deploy and run var housekeeping script
-  hosts: 192.168.0.104
+  hosts: all
   become: yes
 
   vars:
