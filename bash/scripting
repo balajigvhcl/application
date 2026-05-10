@@ -1,0 +1,220 @@
+syntax ;
+
+# ignore
+order top to bottom
+; multiple commands 
+
+Best Practices for Writing Scripts
+Here are some tips for writing clean and efficient scripts:
+
+Use comments to explain your code.
+Choose meaningful variable names.
+Test your scripts thoroughly before using them in production.
+
+-- varialble 
+[root@localhost scripting]# bash variable.sh
+hi balaji!
+[root@localhost scripting]# cat variable.sh
+#!/bin/bash
+
+# this is to use my name balaji as variable
+
+name=balaji
+
+echo "hi $name!"
+[root@localhost scripting]#
+
+----
+[root@localhost scripting]# bash variable.sh
+hi balaji-bhavani!
+balaji-bhavani you are so cute couple
+[root@localhost scripting]# cat variable.sh
+#!/bin/bash
+
+# this is to use my name balaji as variable
+
+name=balaji-bhavani
+
+echo "hi $name!"
+
+echo $name "you are so cute couple"
+[root@localhost scripting]#
+
+--Declaring Variables
+
+Variables are declared by simply assigning a value to a name. There should be no spaces around the equal sign:
+
+variable_name=value
+To access the value of a variable, prefix it with a dollar sign: $variable_name
+
+example:
+[root@localhost scripting]# cat var-numb.sh
+#!/bin/bash
+
+environment=production
+
+echo "this is $environment server"
+
+number=10243
+
+echo "we have $number servers in our $environment"
+
+[root@localhost scripting]# bash var-numb.sh
+this is production server
+we have 10243 servers in our production
+[root@localhost scripting]#
+[root@localhost scripting]#
+
+----
+Environment Variables
+Environment variables are special variables that affect the way processes run on your system. They are often used to store system-wide values like the location of executables or the default editor.
+v
+
+
+[root@localhost scripting]# cat environmental_var.sh
+echo "this is your $PATH"
+
+[root@localhost scripting]# bash environmental_var.sh
+this is your /root/.local/bin:/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+[root@localhost scripting]#
+
+
+---Local variables are only available within the block of code in which they are defined, such as within a function. Global variables are accessible from anywhere in the script.
+
+
+[root@localhost scripting]# cat funct.sh
+#!/bin/bash
+
+my_function () {
+        local_var="am local person"
+        echo "$local_var"
+}
+my_function
+[root@localhost scripting]# bash funct.sh
+am local person
+[root@localhost scripting]#
+----
+Common Variable Operations
+
+
+Variables can be used in various operations, such as concatenation and arithmetic.
+
+
+[root@localhost scripting]# cat comb.variables.sh
+#!/bin/bash
+
+greetings=hello
+name=world
+echo $greetings$name
+
+n1=134
+n2=123
+
+sum=$((n1 + n2 ))
+echo "the sum is $sum"
+[root@localhost scripting]# bash comb.variables.sh
+helloworld
+the sum is 257
+[root@localhost scripting]#
+---
+data types  - string - number - array - associative array 
+ 2 variables, store in another - called string 
+ name=bhavani
+ greeting=hello
+ full_greet=$greeting $name
+
+ 
+[root@localhost scripting]# cat string.sh
+#!/bin/bash
+
+greeting='hello'
+name='riyansh'
+wish="$greeting $name!!!"
+
+echo $wish how are you dear !!
+[root@localhost scripting]# bash string.sh
+hello riyansh!!! how are you dear !!
+[root@localhost scripting]#
+
+
+
+
+[root@localhost scripting]# grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'|cut -d '.' -f2
+7
+[root@localhost scripting]# grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'|cut -d '.' -f1
+9
+
+[root@localhost scripting]# cat numbers.sh
+#!/bin/bash
+n1=10345
+n2=14353
+
+sum=$((n1 + n2))
+difference=$((n2 -n1))
+product=$((n1 * n2))
+quotient=$((n2/n1))
+
+echo "Sum: $sum, Differnce: $difference, Product: $product, Quotient: $quotient"
+[root@localhost scripting]# bash numbers.sh
+Sum: 24698, Differnce: 4008, Product: 148481785, Quotient: 1
+[root@localhost scripting]#
+
+
+-------------
+Arrays
+Arrays are used to store multiple values in a single variable. Each element in an array is accessed using an index. You can iterate over arrays and modify elements.
+1 variable = multiple values
+[root@localhost scripting]# cat  array.sh
+#!/bin/bash
+fruits=("appple,mango,grapes")
+for fruit in "${fruits[@]}";do
+        echo $fruit
+done
+[root@localhost scripting]# bash array.sh
+appple,mango,grapes
+[root@localhost scripting]# vi array-01.sh
+[root@localhost scripting]# cat array-01.sh
+#!/bin/bash
+
+hostlist=(clientnode,controlnode)
+for host in "${hostlist[@]}";do
+        echo $host
+done
+[root@localhost scripting]# bash array-01.sh
+clientnode,controlnode
+[root@localhost scripting]#
+----- usage example:
+[root@localhost scripting]# tail -3 /etc/passwd
+rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/sbin/nologin
+netherland:x:10669:10669::/home/netherland:/bin/bash
+test-jenkins:x:10670:10670::/home/test-jenkins:/bin/bash
+[root@localhost scripting]#
+[root@localhost scripting]# cat user-array.sh
+#!/bin/bash
+
+user_list=("harish" "jayan" "basthi")
+for user in "${user_list[@]}"; do
+        echo "Creationg users $user"
+        useradd $user
+done
+
+[root@localhost scripting]# bash user-array.sh
+Creationg users harish
+Creationg users jayan
+Creationg users basthi
+[root@localhost scripting]# tail -3 /etc/passwd
+harish:x:10671:10671::/home/harish:/bin/bash
+jayan:x:10672:10672::/home/jayan:/bin/bash
+basthi:x:10673:10673::/home/basthi:/bin/bash
+[root@localhost scripting]#
+
+-----
+[root@localhost scripting]# cat install-pkg.sh
+#!/bin/bash
+
+packages=("iperf3" "git" "nodejs")
+for pkg in "${packages[@]}"; do
+        echo "installing $pkg"
+        yum install -y $pkg
+done
+
