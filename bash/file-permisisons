@@ -1,0 +1,11 @@
+Numeric Representation of Permissions
+File permissions can also be represented numerically, which is often used in scripts and command-line operations:
+
+0: No permission
+1: Execute permission
+2: Write permission
+3: Write and execute permissions
+4: Read permission
+5: Read and execute permissions
+6: Read and write permissions
+7: Read, write, and execute permissions

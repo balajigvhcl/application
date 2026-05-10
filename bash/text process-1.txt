@@ -21,3 +21,8 @@ hostname: hello world
 hostname: liene1 liner
 hostname: .kine
 hostname: line1
+
+=------------------------
+cat /etc/redhat-release: Reads the file content, which typically looks like "Red Hat Enterprise Linux release 9.4 (Plow)".
+match($0, /[0-9]/): Finds the position of the first numerical digit in the line.substr(..., 1): 
+Extracts exactly one character starting from that position—effectively giving you just the major version number

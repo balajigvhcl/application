@@ -1,4 +1,4 @@
-# understand the below 
+# echo command usage the below 
 -n  # avoid newline
 -e  # enable backslash \n or \t
 -E  # disables backslash
@@ -49,7 +49,7 @@ vim ~/.bashrc and source ~/.bashrc
 '[A-Za-z]' find lines starting with a letter 
 
 # awk text processing
--F set what seperates the data field, , means create space
+-F set what seperates the data field, , means create space >> F just cuts till what you mention 
 -v set a variable to be used in script
 -f use a file as source of the awk program 
 awk -F"," -v var="cash:" '{print var, $4}' some.csv

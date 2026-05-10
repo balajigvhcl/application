@@ -1,0 +1,96 @@
+The cut command is used to remove sections from each line of files.
+
+-f1 extract f1 respective section 
+-d - Choose what separates the fields
+-f - Select specific fields to display  -1 only 1st column, -2 both 2 columsn
+cut --complement -f1 example_data.txt  - print all except the first column 
+"cut: delimiter must be a single character" - Ensure the delimiter is correctly specified.
+"cut: fields and positions are numbered from 1" - Remember that field and position numbering starts at 1.
+--------------------
+sort 
+-r - Sort in reverse order
+-n - Sort numbers correctly
+-k - Sort by a specific column
+-u - Remove duplicate lines
+-t - Specify a delimiter for fields
+
+-----------
+tail command has several options to customize its behavior:
+
+-n [number]: Display the last [number] lines of the file.
+-f: Follow the file as it grows, useful for monitoring log files.
+-c [number]: Display the last [number] bytes of the file.
+--pid=[pid]: Terminate after the process with the given PID dies.
+--retry: Keep trying to open a file even if it is inaccessible.
+-----------
+The head command has several options used to customize its behavior:
+
+-n [number]: Display the first [number] lines of the file.
+-c [number]: Display the first [number] bytes of the file.
+
+[root@localhost bash]# head -n3 /etc/passwd /etc/shadow /etc/hosts
+
+[root@localhost bash]# head -q -n3 /etc/passwd /etc/shadow /etc/hosts
+---------------
+ps 
+-e all process
+-f all information 
+-u user 
+-a with terminal 
+-x without terminal 
+
+---------------
+top 
+-d delay in update seconds 
+-p monitor some pid
+-u user related
+-n set number of iterations 
+-b batch mode operation 
+--------------
+df command has options to change how it works:
+
+-h - Show sizes in human-readable format (e.g., KB, MB)
+-a - Show all file systems, even empty ones
+-T - Show the type of file system
+-i - Show inode usage
+-P - Use POSIX output format
+-----------------------
+
+ du command has options to change how it works:
+
+-h - Show sizes in human-readable format (e.g., KB, MB)
+-s - Show only the total size for each item
+-a - Show sizes for all files, not just directories
+-c - Produce a grand total
+--max-depth=N - Limit the depth of directory traversal
+
+---------------
+free command has options to change how it works:
+
+-h - Show memory in human-readable format (e.g., KB, MB, GB)
+-b - Show memory in bytes
+-k - Show memory in kilobytes (KB)
+-m - Show memory in megabytes (MB)
+-g - Show memory in gigabytes (GB)
+-s [interval] - Continuously display memory usage at specified intervals
+-t - Display total memory
+----
+kill command is commonly used to:
+
+Terminate unresponsive processes.
+Manage system resources by stopping unnecessary processes.
+Send specific signals to processes for custom handling.
+kill command has several options to customize its behavior:
+
+-9: Forcefully terminate a process.
+-l: List all signal names.
+-s [signal]: Specify a signal to send.
+-p: Print the process ID.
+--------------
+Understanding the Output
+The output of the uptime command shows information like:
+
+Current Time: The time at which the command was run.
+Uptime Duration: How long the system has been running since the last reboot.
+Number of Users: The number of users currently logged into the system.
+Load Averages: The system load averages for the past 1, 5, and 15 minutes.
