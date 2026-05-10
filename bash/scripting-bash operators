@@ -1,0 +1,111 @@
+Comparison Operators
+-eq: Equal to
+-ne: Not equal to
+-lt: Less than
+-le: Less than or equal to
+-gt: Greater than
+-ge: Greater than or equal to
+String Comparison Operators
+=: Equal to
+!=: Not equal to
+<: Less than, in ASCII alphabetical order
+>: Greater than, in ASCII alphabetical order
+Arithmetic Operators
++: Addition
+-: Subtraction
+*: Multiplication
+/: Division
+%: Modulus (remainder of division)
+For exponentiation, use external tools like bc or awk.
+Logical Operators
+&&: Logical AND
+||: Logical OR
+!: Logical NOT
+File Test Operators
+-e: Checks if a file exists
+-d: Checks if a directory exists
+-f: Checks if a file is a regular file
+-s: Checks if a file is not empty
+
+
+
+need to learn test operators 
+comparison operators also 
+
+
+root@localhost scripting]# bash -n operators.sh
+[root@localhost scripting]# cat operators.sh
+
+#!/bin/bash
+
+current_release=$(cat /etc/os-release |grep -i version_id |cut -d= -f2 |tr -d '"')
+
+latest_release=9.8
+
+echo "Current release: $current_release"
+echo "Latest release: $latest_release"
+
+if [[ "$current_release" =~ "$latest_release" ]]; then
+        echo "Server is already running with $latest_release"
+else
+        echo "Server is NOT running with $latest_release"
+        echo "proceed for patching"
+
+fi
+[root@localhost scripting]# bash operators.sh
+Current release: 9.7
+Latest release: 9.8
+Server is NOT running with 9.8
+proceed for patching
+[root@localhost scripting]#
+-----------file testoperatoir
+
+
+[root@localhost scripting]# cat file-test.sh
+#!/bin/bash
+file_name=/etc/passwd
+if [[ -f /etc/passwd ]]; then
+        echo "$file_name file is  available"
+else
+        echo "$file_name file is not available"
+fi
+[root@localhost scripting]# bash file-test.sh
+/etc/passwd file is  available
+[root@localhost scripting]#
+
+
+---creat dir 
+
+[root@localhost scripting]# cat file-dir.sh
+#!/bin/bash
+dir_name=/opt/itrs
+if [[ -d $dir_name ]]; then
+        echo "$dir_name already exists"
+else
+#run the below command to create directory
+        echo "$dir_name not available"
+        echo "creating $dir_name"
+        # create directory
+        mkdir -p $dir_name
+        ls -ld $dir_name
+        if [ $? -eq 0 ];then
+                echo " [ok] $dir_name created successfully "
+        else
+                echo " [fail] to create $dir_name] "
+        fi
+fi
+
+[root@localhost scripting]# bash file-dir.sh
+/opt/itrs not available
+creating /opt/itrs
+drwxr-xr-x. 2 root root 6 May 10 22:42 /opt/itrs
+ [ok] /opt/itrs created successfully
+[root@localhost scripting]#
+
+[root@localhost scripting]# bash file-dir.sh
+/opt/itrs already exists
+[root@localhost scripting]#
+
+
+
+
