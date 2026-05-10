@@ -1,0 +1,78 @@
+ping command has options to change how it works:
+
+-c - Send a specific number of ping requests
+-i - Wait a specific number of seconds between sending each packet
+-t - Set the IP Time to Live (TTL)
+-q - Quiet output, only show summary
+-s - Specify the number of data bytes to be sent
+
+Bytes: The size of the ICMP packet sent
+Time: The round-trip time it took for the packet to reach the host and return, measured in milliseconds
+TTL (Time to Live): The remaining lifespan of the packet, which decreases by one for each hop
+Packet Loss: The percentage of packets that were lost during transmission
+Round-Trip Time Statistics: Includes minimum, average, maximum, and standard deviation of the round-trip times
+
+---
+curl command has options to change how it works:
+
+-O - Save the file with the same name as the remote file
+-L - Follow redirects
+-I - Fetch the HTTP headers only
+-d - Send data with POST request
+-u - Specify user and password for server authentication
+
+----
+v
+wget command has options to change how it works:
+
+-b - Run in the background
+-q - Quiet mode (no output)
+-r - Download directories recursively
+-c - Continue getting a partially-downloaded file
+--limit-rate - Limit download speed
+
+---
+SSH Options
+Here are some common options you can use with the ssh command:
+
+-p - Specify the port
+-i - Use a private key file
+-v - Enable verbose mode
+-C - Enable compression
+-X - Enable X11 forwarding
+-o - Specify options directly on the command line
+Troubleshooting Common Issues
+Common issues like "Connection Refused" or "Host Key Verification Failed" can occur. Here are some steps to troubleshoot these problems:
+
+Connection Refused: Ensure the SSH service is running on the remote server and the correct port is being used. Check firewall settings to make sure they are not blocking the connection.
+Host Key Verification Failed: This happens when the server's host key changes. Verify the server's identity and update the known_hosts file by removing the old key entry.
+Permission Denied: Check permissions and username. Check the server's SSH configuration for restrictions.
+Timeouts: Check network connectivity and server responsiveness. Adjust the SSH timeout settings if necessary.
+
+
+---
+
+scp command supports various options to customize its behavior:
+
+-r - Recursively copy entire directories
+-P - Specify the port to connect to on the remote host
+-i - Specify an identity (private key) file
+-C - Enable compression
+-v - Enable verbose mode
+-l - Limit the bandwidth used by the copy\\
+
+---
+v
+rsync command can vary depending on the options used. Here are some common elements:
+
+File List: Lists the files being transferred.
+Transfer Progress: Shows the progress of each file transfer.
+Compression Ratio: Indicates the effectiveness of compression if used.
+Speed: The speed at which files are being transferred.
+-a - Archive mode
+-v - Increase verbosity
+-z - Compress file data
+--delete - Delete extraneous files
+-r - Recurse into directories
+-u - Skip files that are newer on the receiver ## important
+--progress - Show progress during transfer
