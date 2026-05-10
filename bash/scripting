@@ -218,3 +218,92 @@ for pkg in "${packages[@]}"; do
         yum install -y $pkg
 done
 
+---declare
+
+
+[root@localhost scripting]# cat declare.sh
+
+#!/bin/bash
+
+declare -a services=("httpd" "sshd" "NetworkManager")
+
+echo "checking services"
+for svc in "${services[@]}"; do
+        if systemctl is-active --quiet "$svc"; then
+                echo "[OK] $svc is running"
+        else
+                echo "[FAIL] $svc is not running!"
+        fi
+done
+
+
+[root@localhost scripting]# bash declare.sh
+checking services
+[OK] httpd is running
+[OK] sshd is running
+[OK] NetworkManager is running
+[root@localhost scripting]#
+
+
+---
+[root@localhost scripting]# cat declare-evn.sh
+#!/bin/bash
+
+declare -A env_config=(
+        ["prod_db"]="db.prod.example.com"
+        ["dev_db"]="dev.db.example.com"
+        ["dev_app"]="app-dev.example.com"
+        ["prod_app"]="app-prod.example.com"
+)
+
+echo "Production DB: ${env_config[prod_db]}"
+
+
+[root@localhost scripting]# bash declare-evn.sh
+Production DB: db.prod.example.com
+[root@localhost scripting]#
+
+
+
+[root@localhost scripting]# cat input.svc.sh
+#!/bin/bash
+#declare services
+declare -a services=("httpd" "sshd" "NetworkManager")
+
+#read inpute from user
+input_svc=$1
+
+#if no input is given it should tell me about the usage
+# and available services in this
+if [[ -z " $input_svc " ]]; then
+        echo " usage: $0 <service_name> "
+        echo " available services list is ${services[@]} "
+        exit 1
+fi
+##check the service running status now
+if [[ " ${services[@]} " =~ " $input_svc " ]]; then
+        if systemctl is-active --quiet "$input_svc"; then
+                echo " $input_svc is running "
+        else
+                echo " $input_svc is not running "
+        fi
+else
+        echo "error '$input_svc' is not declared in the list"
+        echo "available services: '${services[@]}' "
+fi
+
+[root@localhost scripting]#
+
+
+
+
+[root@localhost scripting]# ./input.svc.sh http
+error 'http' is not declared in the list
+available services: 'httpd sshd NetworkManager'
+[root@localhost scripting]# ./input.svc.sh httpd
+ httpd is not running
+[root@localhost scripting]# systemctl start httpd
+[root@localhost scripting]# ./input.svc.sh httpd
+ httpd is running
+[root@localhost scripting]#
+[root@localhost scripting]#
