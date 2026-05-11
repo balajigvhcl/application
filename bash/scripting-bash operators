@@ -109,3 +109,40 @@ drwxr-xr-x. 2 root root 6 May 10 22:42 /opt/itrs
 
 
 
+version_id
+[root@localhost scripting]# bash cond.sh
+number is greateer than 5
+[root@localhost scripting]# cat cond.sh
+#!/bin/bash
+n1=10
+if [ $n1 -gt 5 ];then
+        echo "number is greateer than 5"
+else
+        echo "number is less than 5"
+fi
+If Statements
+If statements allow you to execute code based on a condition. If the condition is true, the code block will run.
+
+The condition is enclosed in square brackets [ ] and the statement ends with fi, which is if spelled backward, marking the end of the if block.
+[root@localhost scripting]#
+
+Elif Statements
+Elif statements allow you to check multiple conditions in sequence. If the first condition is false, the next one is checked.
+
+The elif keyword stands for "else if," and the statement still ends with fi.
+
+---netsted
+
+
+
+[root@localhost scripting]# cat nest.sh
+#!/bin/bash
+n=5
+if [ $n -gt 0 ]; then
+        if [ $n -lt 10 ]; then
+                echo "number is between 1 and 9"
+        fi
+fi
+[root@localhost scripting]# bash nest.sh
+number is between 1 and 9
+[root@localhost scripting]#
