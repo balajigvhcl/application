@@ -146,3 +146,245 @@ fi
 [root@localhost scripting]# bash nest.sh
 number is between 1 and 9
 [root@localhost scripting]#
+
+
+Use [ ] if you want maximum portability across all shells.
+
+Use [[ ]] if you’re writing Bash scripts and want extra power and safety.
+
+if [[ -z $var ]]; then
+    echo "Variable is empty"
+fi
+
+if [[ $name == a* ]]; then
+    echo "Name starts with 'a'"
+fi
+
+if [[ $input =~ ^[0-9]+$ ]]; then
+    echo "Input is all digits"
+fi
+
+------
+bash loops 
+for, while, and until loops.
+For Loops
+For loops allow you to iterate over a list of items or a range of numbers. They are useful for repeating tasks a specific number of times.
+
+The for keyword is followed by a variable name, a range of values, and a do keyword, which marks the start of the loop block.
+[root@localhost scripting]# cat for-loop.sh
+#!/bin/bash
+
+# for loop
+for i in {1..5};do
+        echo "iteration $i"
+done
+[root@localhost scripting]# bash for-loop.sh
+iteration 1
+iteration 2
+iteration 3
+iteration 4
+iteration 5
+
+for 
+repeate - specific no. of times. 
+    it uses do to start
+while
+repeate the code - until a specified condition is true 
+    it also uses do to start 
+
+[root@localhost scripting]# cat while-loop.sh
+#!/bin/bash
+----------------
+While Loops
+While loops execute a block of code as long as a specified condition is true.
+
+They are useful for tasks that need to repeat until a certain condition changes.
+
+The condition is enclosed in square brackets [ ], and the loop ends with done.
+
+
+# while
+count=1
+while [ $count -le 5 ];do
+        echo "count is $count"
+        ((count++)
+done
+[root@localhost scripting]# bash while-loop.sh
+while-loop.sh: line 9: syntax error: unexpected end of file
+[root@localhost scripting]# vi while-loop.sh
+[root@localhost scripting]# bash while-loop.sh
+count is 1
+count is 2
+count is 3
+count is 4
+count is 5
+[root@localhost scripting]#
+
+
+-- usage 
+
+[root@localhost scripting]# bash while-wait-svc.sh
+waiting for httpd to start..
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+httpd is not yet running.. retrying in 5s
+[ok] httpd is now running!
+[root@localhost scripting]# cat while-wait-svc.sh
+#!/bin/bash
+
+# which service you want to monitor
+
+service=httpd
+
+echo "waiting for $service to start.."
+
+while ! systemctl is-active --quiet $service;do
+        echo "$service is not yet running.. retrying in 5s"
+        sleep 5
+done
+
+echo "[ok] $service is now running!"
+
+[root@localhost scripting]#
+
+
+[root@localhost scripting]# bash while-wait-svc-start.sh
+httpd is not running..
+httpd is not running..retry after 5s
+httpd is running now
+[root@localhost scripting]# cat while-wait-svc-start.sh
+#!/bin/bash
+
+service=httpd
+
+echo "$service is not running.."
+while ! systemctl is-active --quiet $service;do
+        echo "$service is not running..retry after 5s"
+        systemctl start $service
+        sleep 5
+done
+echo "$service is running now"
+--- checks svc status and restarts it , wait for 5 sec and check st atus if ok , loop breaks
+
+-----------------
+
+[root@localhost scripting]# cat while-du.sh
+#!/bin/bash
+
+threshold=70
+while true; do
+        usage=$(df /var | awk 'NR==2 {print $5}' | tr -d '%')
+        if [ "$usage" -gt "$threshold" ]; then
+                echo "[alert] disk usage is $usage%, exceeding threshold!"
+                fi
+                sleep 60
+        done
+
+[root@localhost scripting]# df -h /var
+Filesystem                  Size  Used Avail Use% Mounted on
+/dev/mapper/rhel_vbox-root   17G   11G  6.5G  63% /
+[root@localhost scripting]# bash while-du.sh
+
+[alert] disk usage is 94%, exceeding threshold!
+
+------------example of disk usage 
+
+[root@localhost scripting]# cat while-du.sh
+#!/bin/bash
+
+threshold=70
+while true; do
+        usage=$(df /var | awk 'NR==2 {print $5}' | tr -d '%')
+        if [ "$usage" -gt "$threshold" ]; then
+                echo "[alert] disk usage is $usage%, exceeding threshold!"
+                fi
+                sleep 60
+        done
+
+[root@localhost scripting]# df -h /var
+Filesystem                  Size  Used Avail Use% Mounted on
+/dev/mapper/rhel_vbox-root   17G   11G  6.5G  63% /
+[root@localhost scripting]# bash while-du.sh
+
+[alert] disk usage is 94%, exceeding threshold!
+
+^C
+[root@localhost scripting]# vi while-du.sh
+[root@localhost scripting]# bash while-du.sh
+filesytem /var usage is 63%, under threshold
+filesytem /var usage is 68%, under threshold
+[alert] disk usage is 74%, exceeding threshold!
+filesytem /var usage is 63%, under threshold
+
+[root@localhost scripting]# cat while-du.sh
+#!/bin/bash
+
+threshold=70
+dir="/var"
+while true; do
+        usage=$(df /var | awk 'NR==2 {print $5}' | tr -d '%')
+        if [ "$usage" -gt "$threshold" ]; then
+                echo "[alert] disk usage is $usage%, exceeding threshold!"
+        else
+                echo "filesytem $dir usage is $usage%, under threshold"
+        fi
+        sleep 10
+done
+        if [ "$usage" -lt "$threshold" ]; then
+                echo "[ok] filesystem is ok, no need to monitor"
+        break
+        fi
+
+-------
+
+
+Until Loops
+Until loops are similar to while loops, but they execute until a specified condition becomes true.
+
+The condition is enclosed in square brackets [ ], and the loop ends with done.
+
+
+--note  while and until are exactly opposite conditions. 
+
+Break and Continue
+Break and continue statements are used to control loop execution. break exits the loop, while continue skips to the next iteration.
+
+These statements are typically used inside conditional blocks to alter the flow of the loop.
+
+find file size 400mb and break the loop 
+
+[root@localhost scripting]# cat break-cont.sh
+#!/bin/bash
+
+for file in /var/log/*.log;do
+        size=$(du -m "$file" | awk '{print $1}')
+        if [ "$size" -gt 400 ];then
+                echo "[alert] found large file: $file ($size)"
+                break
+        fi
+done
+
+[root@localhost scripting]# bash break-cont.sh
+[alert] found large file: /var/log/440MB_file.log (2048)
+[root@localhost scripting]#
+
+
+------------------
+ Production Tip:
+
+Use break when you want to exit early (e.g., service started, patch applied).
+
+Use continue when you want to skip certain cases but keep looping (e.g., skip empty logs, skip offline servers).
+
+# Nested loops example
+for i in {1..3}; do
+  for j in {1..2}; do
+    echo "Outer loop $i, Inner loop $j"
+  done
+done

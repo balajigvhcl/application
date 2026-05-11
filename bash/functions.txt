@@ -1,0 +1,50 @@
+To define a function in Bash, use the following syntax. The function name is followed by parentheses, and the function body is enclosed in curly braces:
+
+() parentheses
+{} curly braces
+
+
+Call a Function
+my_function
+
+funcitons - can 
+    accept arguments 
+    return values
+    use local variables
+
+----
+[root@localhost scripting]# cat funct2.sh
+#!/bin/bash
+greet() {
+        local name=$1
+        echo "hello $name"
+}
+greet "balaji"
+[root@localhost scripting]#
+
+---
+greet is the function name
+local name - is variable. 
+add() {
+  local sum=$(($1 + $2))
+  echo $sum
+}
+result=$(add 5 3)
+echo "The sum is $result"
+
+
+--
+Arrays allow you to store multiple values in a single variable, making data management easier.
+
+
+Arrays can store multiple values, and each value is indexed starting from zero:
+
+
+Cron jobs are defined using a specific syntax in the crontab file. Each line in the file represents a task and follows this format:
+
+* * * * * command_to_execute
+Minute: 0-59
+Hour: 0-23
+Day of Month: 1-31
+Month: 1-12
+Day of Week: 0-7 (0 and 7 are Sunday)
